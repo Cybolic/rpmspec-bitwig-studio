@@ -1,7 +1,7 @@
 Name:           bitwig-studio
 Version:        2.2.2
 Release:        1%{?dist}
-Summary:        A dynamic software for creation and performance of your musical ideas on stage or in the studio.
+Summary:        A dynamic software for creation and performance of musical ideas
 
 License:        EULA
 URL:            https://www.bitwig.com/
@@ -20,16 +20,18 @@ Requires:       xcb-util-wm, bzip2-libs >= 1.0, bzip2-libs < 2.0
 
 
 %description 
-Bitwig Studio is a dynamic software for creation and performance of your musical ideas on stage or in the studio.
+Bitwig Studio is a dynamic software for creation and performance of your
+musical ideas on stage or in the studio.
 
-Discover the new standard in customized workflow. Bitwig Studio inspires you to take greater control of your music,
-giving you access to every aspect of your production. Streamline your creative process and quickly evolve your ideas
-into complete songs, tracks and compositions. Record and arrange, improvise and perform, or do it all at once.
+Discover the new standard in customized workflow. Bitwig Studio inspires you
+to take greater control of your music, giving you access to every aspect of
+your production. Streamline your creative process and quickly evolve your
+ideas into complete songs, tracks and compositions. Record and arrange,
+improvise and perform, or do it all at once.
 
-Bitwig Studio comes loaded with industry-standard to industry-leading features, designed to meet the demands of
-present day musicians, producers and sound designers.
-
-Welcome to the next generation of music creation and performance software for Windows, Mac OS X, and Linux.
+Bitwig Studio comes loaded with industry-standard to industry-leading
+features, designed to meet the demands of present day musicians, producers and
+sound designers.
  
 
 %prep
