@@ -1,22 +1,24 @@
 Name:           bitwig-studio
-Version:        2.2.2
+Version:        2.3.2
 Release:        1%{?dist}
 Summary:        A dynamic software for creation and performance of musical ideas
 
 License:        EULA
 URL:            https://www.bitwig.com/
 Source0:        https://www.bitwig.com/dl/stable/%{version}/%{name}-%{version}.deb
+# In F28+ these two should be able to be replaced by compat-ffmpeg28
 Source1:        http://security.ubuntu.com/ubuntu/pool/universe/f/ffmpeg/libavcodec-ffmpeg-extra56_2.8.11-0ubuntu0.16.04.1_amd64.deb
 Source2:        http://security.ubuntu.com/ubuntu/pool/universe/f/ffmpeg/libavformat-ffmpeg56_2.8.11-0ubuntu0.16.04.1_amd64.deb
 
 BuildRequires:  dpkg
-Requires:       xcb-util-wm, bzip2-libs >= 1.0, bzip2-libs < 2.0
+Requires:       xcb-util-wm, bzip2-libs >= 1.0, bzip2-libs < 2.0, hicolor-icon-theme
 
-
-%global __requires_exclude_from ^(/opt/bitwig-studio/bin/.*\\.so.*|/opt/bitwig-studio/bin/jre/lib/amd64/headless/.*\\.so|/opt/bitwig-studio/bin/jre/lib/amd64/jli/.*\\.so|/opt/bitwig-studio/bin/jre/lib/amd64/server/.*\\.so|/opt/bitwig-studio/bin/jre/lib/amd64/.*\\.so|/opt/bitwig-studio/bin/jre/lib/amd64/xawt/.*\\.so|/opt/bitwig-studio/bin/vamp-plugins/.*\\.so)$
-%global _privatelibs libav(codec|format).*[.]so.*
-%global __provides_exclude ^(%{_privatelibs})$
-%global __requires_exclude ^(%{_privatelibs})$
+%global         debug_package %{nil}
+%global         __strip /bin/true
+%global         __requires_exclude_from ^(/opt/bitwig-studio/bin/.*\\.so.*|/opt/bitwig-studio/bin/jre/lib/amd64/headless/.*\\.so|/opt/bitwig-studio/bin/jre/lib/amd64/jli/.*\\.so|/opt/bitwig-studio/bin/jre/lib/amd64/server/.*\\.so|/opt/bitwig-studio/bin/jre/lib/amd64/.*\\.so|/opt/bitwig-studio/bin/jre/lib/amd64/xawt/.*\\.so|/opt/bitwig-studio/bin/vamp-plugins/.*\\.so)$
+%global         _privatelibs libav(codec|format).*[.]so.*
+%global         __provides_exclude ^(%{_privatelibs})$
+%global         __requires_exclude ^(%{_privatelibs})$
 
 
 %description 
@@ -39,6 +41,7 @@ sound designers.
 rm -rf %{name}-%{version}
 mkdir -p %{name}-%{version}
 dpkg -x %{SOURCE0} $RPM_BUILD_DIR/%{name}-%{version}
+# Note: In F28+ these two should be able to be replaced by compat-ffmpeg28
 # Unpack libavcodec-ffmpeg-extra56 deb package
 cd $RPM_BUILD_DIR
 mkdir -p %{name}-%{version}libavcodec-ffmpeg-extra56
@@ -53,6 +56,8 @@ dpkg -x %{SOURCE2} $RPM_BUILD_DIR/%{name}-%{version}/libavformat-ffmpeg56
 # Move the Bitwig install files to the build root
 mv $RPM_BUILD_DIR/%{name}-%{version}/{opt,usr} %{buildroot}/
 
+# Note: In F28+ these two should be able to be replaced by compat-ffmpeg28
+
 # Add libavcodec-ffmpeg.so.56 from Ubuntu 16.04 LTS to the Bitwig static libraries
 mv $RPM_BUILD_DIR/%{name}-%{version}/libavcodec-ffmpeg-extra56/usr/lib/x86_64-linux-gnu/libavcodec-ffmpeg.so.56* %{buildroot}/opt/bitwig-studio/lib/bitwig-studio/
 
@@ -61,22 +66,6 @@ mv $RPM_BUILD_DIR/%{name}-%{version}/libavformat-ffmpeg56/usr/lib/x86_64-linux-g
 
 # Alias libbz2.so.1 to the filename Bitwig expects to find
 ln -s /usr/lib64/libbz2.so.1 %{buildroot}/opt/bitwig-studio/lib/bitwig-studio/libbz2.so.1.0
-
-
-
-%post
-touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
-
-
-%postun
-if [ $1 -eq 0 ] ; then
-    touch --no-create %{_datadir}/icons/hicolor &>/dev/null
-    gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-fi
-
-
-%posttrans
-gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %files
@@ -98,3 +87,5 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %changelog
 * Sat Nov 4 2017 Christian Dannie Storgaard <cybolic@gmail.com> - 2.2.2-1
 - First version
+* Sat Mar 17 2017 Christian Dannie Storgaard <cybolic@gmail.com> - 2.3.2-1
+- New version and updates to SPEC in response to comments on the RPMFusion issue tracker
