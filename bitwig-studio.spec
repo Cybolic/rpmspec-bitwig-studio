@@ -1,5 +1,5 @@
 Name:           bitwig-studio
-Version:        3.1
+Version:        3.1.3
 Release:        1%{?dist}
 Summary:        A dynamic software for creation and performance of musical ideas
 
@@ -85,6 +85,12 @@ ln -s /usr/lib64/libbz2.so.1 %{buildroot}/opt/bitwig-studio/lib/bitwig-studio/li
 
 
 %changelog
+* Sun Apr 05 2020 Konstantin Novakovskiy <kostya.keeper@gmail.com> - 3.1.3-2
+- New 3.1.3 version
+
+* Fri Dec 20 2019 Konstantin Novakovskiy <kostya.keeper@gmail.com> - 3.1-1
+- New 3.1 version, update ubuntu dependencies, fix executable permission on resource files
+
 * Sat Nov 4 2017 Christian Dannie Storgaard <cybolic@gmail.com> - 2.2.2-1
 - First version
 * Sat Mar 17 2017 Christian Dannie Storgaard <cybolic@gmail.com> - 2.3.2-1

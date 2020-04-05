@@ -6,6 +6,11 @@ Make sure your system has the necessary packages in order to build the RPM packa
 sudo dnf install rpm-build rpmdevtools
 ```
 
+Create ~/rpmbuild directory structure:
+```bash
+rpmdev-setuptree
+```
+
 Fetch the source package for Bitwig (the Debian package from their website):
 
 ```bash
@@ -25,3 +30,4 @@ Install the package (there are simpler ways, but this one selects the version ju
 ```bash
 sudo dnf install ~/rpmbuild/RPMS/x86_64/bitwig-studio-$(cat ./bitwig-studio.spec | grep Version | rev | cut -d\  -f1 | rev)-*.rpm
 ```
+
