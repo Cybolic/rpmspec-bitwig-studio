@@ -1,5 +1,5 @@
 Name:           bitwig-studio
-Version:        2.3.2
+Version:        3.1.3
 Release:        1%{?dist}
 Summary:        A dynamic software for creation and performance of musical ideas
 
@@ -7,8 +7,8 @@ License:        EULA
 URL:            https://www.bitwig.com/
 Source0:        https://www.bitwig.com/dl/stable/%{version}/%{name}-%{version}.deb
 # In F28+ these two should be able to be replaced by compat-ffmpeg28
-Source1:        http://security.ubuntu.com/ubuntu/pool/universe/f/ffmpeg/libavcodec-ffmpeg-extra56_2.8.11-0ubuntu0.16.04.1_amd64.deb
-Source2:        http://security.ubuntu.com/ubuntu/pool/universe/f/ffmpeg/libavformat-ffmpeg56_2.8.11-0ubuntu0.16.04.1_amd64.deb
+Source1:        http://security.ubuntu.com/ubuntu/pool/universe/f/ffmpeg/libavcodec-ffmpeg-extra56_2.8.15-0ubuntu0.16.04.1_amd64.deb
+Source2:        http://security.ubuntu.com/ubuntu/pool/universe/f/ffmpeg/libavformat-ffmpeg56_2.8.15-0ubuntu0.16.04.1_amd64.deb
 
 BuildRequires:  dpkg
 Requires:       xcb-util-wm, bzip2-libs >= 1.0, bzip2-libs < 2.0, hicolor-icon-theme
@@ -44,6 +44,10 @@ dpkg -x %{SOURCE0} $RPM_BUILD_DIR/%{name}-%{version}
 # Note: In F28+ these two should be able to be replaced by compat-ffmpeg28
 # Unpack libavcodec-ffmpeg-extra56 deb package
 cd $RPM_BUILD_DIR
+# Fix a files permission on resource data (shame (:)
+find $RPM_BUILD_DIR/%{name}-%{version}/opt/bitwig-studio/resources -executable -type f -exec /usr/bin/chmod a-x {} \;
+# Unpack libavcodec-ffmpeg-extra56 deb package
+cd $RPM_BUILD_DIR
 mkdir -p %{name}-%{version}libavcodec-ffmpeg-extra56
 dpkg -x %{SOURCE1} $RPM_BUILD_DIR/%{name}-%{version}/libavcodec-ffmpeg-extra56
 # Unpack libavformat-ffmpeg56 deb package
@@ -51,11 +55,9 @@ cd $RPM_BUILD_DIR
 mkdir -p %{name}-%{version}libavformat-ffmpeg56
 dpkg -x %{SOURCE2} $RPM_BUILD_DIR/%{name}-%{version}/libavformat-ffmpeg56
 
-
 %install
 # Move the Bitwig install files to the build root
 mv $RPM_BUILD_DIR/%{name}-%{version}/{opt,usr} %{buildroot}/
-
 # Note: In F28+ these two should be able to be replaced by compat-ffmpeg28
 
 # Add libavcodec-ffmpeg.so.56 from Ubuntu 16.04 LTS to the Bitwig static libraries
@@ -72,19 +74,23 @@ ln -s /usr/lib64/libbz2.so.1 %{buildroot}/opt/bitwig-studio/lib/bitwig-studio/li
 /opt/bitwig-studio
 /usr/bin/bitwig-studio
 /usr/share/applications/bitwig-studio.desktop
-/usr/share/icons/hicolor/48x48/apps/bitwig-modular.png
+/usr/share/mime/packages/bitwig-studio.xml
 /usr/share/icons/hicolor/48x48/apps/bitwig-studio.png
-/usr/share/icons/hicolor/scalable/apps/bitwig-modular.svg
 /usr/share/icons/hicolor/scalable/apps/bitwig-studio.svg
+/usr/share/icons/hicolor/scalable/mimetypes/application-bitwig-project-folder.svg
+/usr/share/icons/hicolor/scalable/mimetypes/application-bitwig-preset.svg
 /usr/share/icons/hicolor/scalable/mimetypes/application-bitwig-clip.svg
 /usr/share/icons/hicolor/scalable/mimetypes/application-bitwig-device.svg
-/usr/share/icons/hicolor/scalable/mimetypes/application-bitwig-preset.svg
 /usr/share/icons/hicolor/scalable/mimetypes/application-bitwig-project.svg
-/usr/share/icons/hicolor/scalable/mimetypes/application-bitwig-project-folder.svg
-/usr/share/mime/packages/bitwig-studio.xml
 
 
 %changelog
+* Sun Apr 05 2020 Konstantin Novakovskiy <kostya.keeper@gmail.com> - 3.1.3-2
+- New 3.1.3 version
+
+* Fri Dec 20 2019 Konstantin Novakovskiy <kostya.keeper@gmail.com> - 3.1-1
+- New 3.1 version, update ubuntu dependencies, fix executable permission on resource files
+
 * Sat Nov 4 2017 Christian Dannie Storgaard <cybolic@gmail.com> - 2.2.2-1
 - First version
 * Sat Mar 17 2017 Christian Dannie Storgaard <cybolic@gmail.com> - 2.3.2-1
